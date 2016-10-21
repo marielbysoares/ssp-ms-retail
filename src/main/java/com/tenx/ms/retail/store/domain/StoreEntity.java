@@ -1,5 +1,6 @@
 package com.tenx.ms.retail.store.domain;
 
+import com.tenx.ms.retail.order.domain.OrderEntity;
 import com.tenx.ms.retail.product.domain.ProductEntity;
 import lombok.Data;
 
@@ -20,4 +21,7 @@ public class StoreEntity {
 
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "store", fetch = FetchType.LAZY)
     private List<ProductEntity> products;
+
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "store", fetch = FetchType.LAZY)
+    private List<OrderEntity> orders;
 }

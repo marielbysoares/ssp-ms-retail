@@ -115,4 +115,28 @@ public class StoreControllerTest extends BaseRetailIntegrationTest {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    public void testDeleteStoreSuccess() {
+        Long storeId = createStore();
+        Long productId = createProduct(storeId);
+        createStock(storeId, productId);
+        ResponseEntity<String> response = getStringResponse(String.format(STORES_REQUEST_URI + "%s", getBasePath(), storeId), null, HttpMethod.DELETE);
+        assertEquals("HTTP Status code incorrect for delete store by id with invalid id.", HttpStatus.OK, response.getStatusCode());
+
+        response = getStringResponse(String.format(STORES_REQUEST_URI + "%s", getBasePath(), storeId), null, HttpMethod.GET);
+        assertEquals("HTTP Status code incorrect for get store.", HttpStatus.NOT_FOUND, response.getStatusCode());
+
+        response = getStringResponse(String.format(PRODUCTS_REQUEST_URI + "%s", getBasePath(), storeId, productId), null, HttpMethod.GET);
+        assertEquals("HTTP Status code incorrect for get product.", HttpStatus.NOT_FOUND, response.getStatusCode());
+
+        response = getStringResponse(String.format(STOCK_REQUEST_URI, getBasePath(), storeId, productId), null, HttpMethod.GET);
+        assertEquals("HTTP Status code incorrect for get product.", HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteStoreNotFound() {
+        ResponseEntity<String> response = getStringResponse(String.format(STORES_REQUEST_URI + "%s", getBasePath(), INVALID_ID), null, HttpMethod.DELETE);
+        assertEquals("HTTP Status code incorrect for delete store by id with invalid id.", HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
 }
