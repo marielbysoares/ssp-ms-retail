@@ -1,5 +1,6 @@
 package com.tenx.ms.retail.product.domain;
 
+import com.tenx.ms.retail.stock.domain.StockEntity;
 import com.tenx.ms.retail.store.domain.StoreEntity;
 import lombok.Data;
 
@@ -30,4 +31,8 @@ public class ProductEntity {
     @ManyToOne(targetEntity = StoreEntity.class)
     @JoinColumn(name = "store_id", referencedColumnName = "store_id", nullable = false)
     private StoreEntity store;
+
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true, targetEntity = StockEntity.class)
+    @JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = true)
+    private StockEntity stock;
 }
