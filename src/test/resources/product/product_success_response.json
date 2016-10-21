@@ -1,0 +1,8 @@
+{
+  "name": "Product 1 - Store 1",
+  "description": "Product 1 description",
+  "sku": "A76BC28F",
+  "price": 5,
+  "store_id": 1,
+  "product_id": 1
+}

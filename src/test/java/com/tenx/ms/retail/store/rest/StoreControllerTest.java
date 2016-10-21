@@ -1,4 +1,4 @@
-package com.tenx.ms.retail.rest;
+package com.tenx.ms.retail.store.rest;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tenx.ms.commons.config.Profiles;

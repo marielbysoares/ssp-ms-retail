@@ -1,8 +1,10 @@
 package com.tenx.ms.retail.store.domain;
 
+import com.tenx.ms.retail.product.domain.ProductEntity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -15,4 +17,7 @@ public class StoreEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "store", fetch = FetchType.LAZY)
+    private List<ProductEntity> products;
 }

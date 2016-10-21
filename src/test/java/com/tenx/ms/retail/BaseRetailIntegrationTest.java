@@ -30,11 +30,26 @@ public class BaseRetailIntegrationTest extends BaseIntegrationTest {
     @Value("classpath:store/store_success.json")
     private File storeSuccessRequest;
 
+    @Value("classpath:product/product_success.json")
+    private File productSuccessRequest;
+
     protected Long createStore() {
         try {
             ResponseEntity<String> response = getStringResponse(String.format(STORES_REQUEST_URI, getBasePath()), FileUtils.readFileToString(storeSuccessRequest), HttpMethod.POST);
             assertEquals("HTTP Status code incorrect for create store.", HttpStatus.OK, response.getStatusCode());
             ResourceCreated<Long> created = mapper.readValue(response.getBody(), new TypeReference<ResourceCreated<Long>>() {});
+            return created.getId();
+        } catch (IOException e) {
+            fail(e.getMessage());
+            return null;
+        }
+    }
+
+    protected Long createProduct(Long storeId) {
+        try {
+            ResponseEntity<String> response = getStringResponse(String.format(PRODUCTS_REQUEST_URI, getBasePath(), storeId), FileUtils.readFileToString(productSuccessRequest), HttpMethod.POST);
+            assertEquals("HTTP Status code incorrect for create product.", HttpStatus.OK, response.getStatusCode());
+            ResourceCreated<Long> created = mapper.readValue(response.getBody(), new TypeReference<ResourceCreated<Long>>(){});
             return created.getId();
         } catch (IOException e) {
             fail(e.getMessage());
