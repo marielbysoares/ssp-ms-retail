@@ -28,11 +28,11 @@ public class ProductEntity {
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @ManyToOne(targetEntity = StoreEntity.class)
+    @ManyToOne
     @JoinColumn(name = "store_id", referencedColumnName = "store_id", nullable = false)
     private StoreEntity store;
 
-    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true, targetEntity = StockEntity.class)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = true)
     private StockEntity stock;
 }

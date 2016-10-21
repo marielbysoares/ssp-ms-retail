@@ -17,11 +17,11 @@ public class OrderProductEntity {
     @Column(name = "count", nullable = false)
     private Integer count;
 
-    @OneToOne(targetEntity = ProductEntity.class)
+    @OneToOne
     @JoinColumn(name = "product_id",  referencedColumnName = "product_id", updatable = false)
     private ProductEntity product;
 
-    @ManyToOne(targetEntity = OrderEntity.class)
+    @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "order_id", insertable = false, updatable = false)
     private OrderEntity order;
 }

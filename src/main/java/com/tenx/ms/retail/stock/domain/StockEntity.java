@@ -14,11 +14,11 @@ public class StockEntity {
     @Column(name = "product_id", insertable = false, updatable = false, nullable = false)
     private Long productId;
 
-    @OneToOne(targetEntity = ProductEntity.class)
+    @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     private ProductEntity product;
 
-    @ManyToOne(targetEntity = StoreEntity.class)
+    @ManyToOne
     @JoinColumn(name = "store_id", referencedColumnName = "store_id")
     private StoreEntity store;
 

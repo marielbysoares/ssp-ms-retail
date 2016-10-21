@@ -37,11 +37,11 @@ public class OrderEntity {
     @Column(name = "phone", nullable = false, length = 10)
     private String phone;
 
-    @ManyToOne(targetEntity = StoreEntity.class)
-    @JoinColumn(name = "store_id")
+    @ManyToOne
+    @JoinColumn(name = "store_id", referencedColumnName = "store_id")
     private StoreEntity store;
 
-    @OneToMany(targetEntity = OrderProductEntity.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id", nullable = false)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id", referencedColumnName = "order_id", nullable = false)
     private List<OrderProductEntity> products;
 }

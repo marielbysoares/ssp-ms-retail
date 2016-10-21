@@ -116,7 +116,7 @@ public class ProductControllerTest extends BaseRetailIntegrationTest {
 
         try {
             String expectedJson = FileUtils.readFileToString(productSuccessResponse);
-            JSONAssert.assertEquals(response.getBody(), expectedJson, false);
+            JSONAssert.assertEquals(expectedJson, response.getBody(), true);
         } catch (IOException e) {
             fail(e.getMessage());
         }

@@ -19,9 +19,9 @@ public class StoreEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "store", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "store")
     private List<ProductEntity> products;
 
-    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "store", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "store")
     private List<OrderEntity> orders;
 }
