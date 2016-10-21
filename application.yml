@@ -27,7 +27,7 @@ spring:
         hibernate:
           ddl-auto: validate
     datasource:
-        url: jdbc:mysql://127.0.0.1:11010/sspms?tinyInt1isBit=false&userSSL=false
+        url: jdbc:mysql://127.0.0.1:11090/sspms?tinyInt1isBit=false&userSSL=false
         username: root
         password: 'tenxdev'
         driver-class-name: com.mysql.jdbc.Driver
