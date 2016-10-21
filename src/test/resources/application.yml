@@ -1,0 +1,15 @@
+management.security.enabled: false
+security.basic.enabled: false
+
+spring:
+    cloud:
+        discovery:
+            enabled: false
+    datasource:
+        url: jdbc:mysql://127.0.0.1:11010/sspms?tinyInt1isBit=false&userSSL=false
+        username: root
+        password: 'tenxdev'
+        driver-class-name: com.mysql.jdbc.Driver
+
+server:
+   port: 0

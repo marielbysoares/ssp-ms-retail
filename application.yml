@@ -1,0 +1,33 @@
+# ATTENTION DEVELOPER:
+#
+# When this service is ready to be built and deployed along with the other microservices, the following must occur
+#
+# 1. Rename this file to "retail.yml"
+# 2. Remove this comment block.
+# 3. Add the file to the ssp-configuration-repo Git repository under the "ms" branch.
+# 4. Start this service to confirm it obtains its configuration.
+#
+
+management.security.enabled: false
+security.basic.enabled: false
+
+server:
+  port: 9090
+  contextPath: /retail
+
+
+---
+spring:
+    profiles: dev
+    cloud:
+        discovery:
+            enabled: false
+    jpa:
+        show-sql: true
+        hibernate:
+          ddl-auto: validate
+    datasource:
+        url: jdbc:mysql://127.0.0.1:11010/sspms?tinyInt1isBit=false&userSSL=false
+        username: root
+        password: 'tenxdev'
+        driver-class-name: com.mysql.jdbc.Driver
