@@ -7,6 +7,7 @@ import com.tenx.ms.retail.store.service.StoreService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +22,14 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
-    @ApiOperation(value = "Create a store")
+    @ApiOperation(value = "Create a store", authorizations = { @Authorization("ROLE_ADMIN") })
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success"),
         @ApiResponse(code = 412, message = "Precondition failure"),
         @ApiResponse(code = 500, message = "Internal server error")})
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.POST)
+    @PreAuthorize("!authentication.isClientOnly() && hasRole('ROLE_ADMIN')")
     public ResourceCreated<Long> create(@ApiParam(name = "store", value="JSON data of the store to be created", required = true) @Validated @RequestBody Store store) {
         return new ResourceCreated<>(storeService.create(store));
     }
@@ -55,13 +57,14 @@ public class StoreController {
         return storeService.getById(storeId);
     }
 
-    @ApiOperation(value = "Delete a Store")
+    @ApiOperation(value = "Delete a Store", authorizations = { @Authorization("ROLE_ADMIN") })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 404, message = "Not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(value = {"/{storeId:\\d+}"}, method = RequestMethod.DELETE)
+    @PreAuthorize("!authentication.isClientOnly() && hasRole('ROLE_ADMIN')")
     public void deleteStore(@ApiParam(name = "Store id", value = "The id of the store to be deleted", required = true) @PathVariable Long storeId){
         storeService.delete(storeId);
     }
