@@ -29,10 +29,10 @@ public class ProductEntity {
     private BigDecimal price;
 
     @ManyToOne
-    @JoinColumn(name = "store_id", referencedColumnName = "store_id", nullable = false)
+    @JoinColumn(name = "store_id", nullable = false)
     private StoreEntity store;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = true)
+    @JoinColumn(name = "product_id", nullable = true)
     private StockEntity stock;
 }

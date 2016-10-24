@@ -5,7 +5,7 @@ import com.tenx.ms.retail.store.domain.StoreEntity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -17,13 +17,11 @@ public class OrderEntity {
     @Column(name="order_id", nullable = false)
     private Long orderId;
 
-    @Column(name="status", nullable = false, length = 7)
+    @Column(name="status", nullable = false)
     private OrderStatusEnum status;
 
-    @Column(name = "order_date", columnDefinition = "datetime default current_timestamp",
-            insertable = false, nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date orderDate;
+    @Column(name = "order_date", insertable = false, nullable = false)
+    private LocalDateTime orderDate;
 
     @Column(name="first_name", nullable = false)
     private String firstName;
@@ -38,10 +36,10 @@ public class OrderEntity {
     private String phone;
 
     @ManyToOne
-    @JoinColumn(name = "store_id", referencedColumnName = "store_id")
+    @JoinColumn(name = "store_id")
     private StoreEntity store;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id", referencedColumnName = "order_id", nullable = false)
+    @JoinColumn(name = "order_id", nullable = false)
     private List<OrderProductEntity> products;
 }

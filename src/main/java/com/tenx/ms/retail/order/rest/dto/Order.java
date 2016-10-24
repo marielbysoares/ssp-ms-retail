@@ -5,12 +5,12 @@ import com.tenx.ms.commons.validation.constraints.PhoneNumber;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ApiModel("Order")
@@ -23,34 +23,33 @@ public class Order {
     private Long storeId;
 
     @ApiModelProperty(value = "Order date", readOnly = true)
-    private Date orderDate;
+    private LocalDateTime orderDate;
 
     @ApiModelProperty(value = "Order status")
     private OrderStatusEnum status;
 
     @ApiModelProperty(value = "First name", required = true, example = "Jane")
     @Pattern(regexp = "\\A[a-zA-Z]+\\z", message = "First name must be alpha only")
-    @NotNull
+    @NotBlank
     private String firstName;
 
     @ApiModelProperty(value = "Last name", required = true, example = "Doe")
     @Pattern(regexp = "\\A[a-zA-Z]+\\z", message = "Last name must be alpha only")
-    @NotNull
+    @NotBlank
     private String lastName;
 
     @ApiModelProperty(value = "Email", required = true, example = "email@email.com")
     @Email
-    @NotNull
+    @NotBlank
     private String email;
 
     @ApiModelProperty(value = "Phone number", required = true, example = "7869700939")
     @PhoneNumber
-    @NotNull
+    @NotBlank
     private String phone;
 
     @ApiModelProperty(value = "Order Products", required = true)
-    @Size(min = 1)
-    @NotNull
+    @NotEmpty
     @Valid
     private List<OrderProduct> products;
 }

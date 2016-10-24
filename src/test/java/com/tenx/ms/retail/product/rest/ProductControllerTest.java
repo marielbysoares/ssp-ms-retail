@@ -67,6 +67,9 @@ public class ProductControllerTest extends BaseRetailIntegrationTest {
         Long storeId = createStore();
         Long productId = createProduct(storeId);
         assertEquals("Product id does not match", Long.valueOf(1L), productId);
+
+        ResponseEntity<String> response = getStringResponse(String.format(PRODUCTS_REQUEST_URI + "%s", getBasePath(), storeId, productId), null, HttpMethod.GET);
+        assertEquals("HTTP Status code incorrect for get product by id.", HttpStatus.OK, response.getStatusCode());
     }
 
     @Test

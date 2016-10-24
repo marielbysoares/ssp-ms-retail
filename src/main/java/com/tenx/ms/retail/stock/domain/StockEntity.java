@@ -15,11 +15,11 @@ public class StockEntity {
     private Long productId;
 
     @OneToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
+    @JoinColumn(name = "product_id")
     private ProductEntity product;
 
     @ManyToOne
-    @JoinColumn(name = "store_id", referencedColumnName = "store_id")
+    @JoinColumn(name = "store_id")
     private StoreEntity store;
 
     @Column(name = "count", nullable = false)

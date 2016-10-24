@@ -18,10 +18,10 @@ public class OrderProductEntity {
     private Integer count;
 
     @OneToOne
-    @JoinColumn(name = "product_id",  referencedColumnName = "product_id", updatable = false)
+    @JoinColumn(name = "product_id", updatable = false)
     private ProductEntity product;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "order_id", insertable = false, updatable = false)
+    @JoinColumn(name = "order_id", insertable = false, updatable = false)
     private OrderEntity order;
 }

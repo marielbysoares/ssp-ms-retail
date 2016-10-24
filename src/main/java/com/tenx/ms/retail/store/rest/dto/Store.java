@@ -3,8 +3,7 @@ package com.tenx.ms.retail.store.rest.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 @ApiModel("Store")
 @Data
@@ -13,6 +12,6 @@ public class Store {
     private Long storeId;
 
     @ApiModelProperty(value = "Store name", required = true, example = "Store name")
-    @NotNull
+    @NotBlank
     private String name;
 }

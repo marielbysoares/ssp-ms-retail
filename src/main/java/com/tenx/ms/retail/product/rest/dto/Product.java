@@ -4,6 +4,7 @@ import com.tenx.ms.commons.validation.constraints.DollarAmount;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -20,7 +21,7 @@ public class Product {
     private Long storeId;
 
     @ApiModelProperty(value = "Product name", required = true, example = "Product name")
-    @NotNull
+    @NotBlank
     private String name;
 
     @ApiModelProperty(value = "Product description", example = "Product description")

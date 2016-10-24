@@ -46,6 +46,9 @@ public class StoreControllerTest extends BaseRetailIntegrationTest {
     public void testCreateStoreSuccess() {
         Long storeId = createStore();
         assertEquals("StoreId does not match", Long.valueOf(1L), storeId);
+
+        ResponseEntity<String> response = getStringResponse(String.format(STORES_REQUEST_URI + "%s", getBasePath(), storeId), null, HttpMethod.GET);
+        assertEquals("HTTP Status code incorrect for get store by id.", HttpStatus.OK, response.getStatusCode());
     }
 
     @Test

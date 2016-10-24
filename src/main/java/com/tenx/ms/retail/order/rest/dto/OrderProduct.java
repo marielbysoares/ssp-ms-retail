@@ -13,9 +13,6 @@ public class OrderProduct {
     @ApiModelProperty(name = "Order product id", readOnly = true)
     private Long orderProductId;
 
-    @ApiModelProperty(name = "Order Id")
-    private Long orderId;
-
     @ApiModelProperty(name = "Product Id", required = true)
     private Long productId;
 

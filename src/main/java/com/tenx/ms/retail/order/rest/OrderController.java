@@ -25,7 +25,7 @@ public class OrderController {
             }
     )
     @RequestMapping(value = {"/{storeId:\\d+}"}, method = RequestMethod.POST)
-    public OrderResponse updateStock(
+    public OrderResponse createOrder(
             @ApiParam(name = "storeId", value = "The store id") @PathVariable("storeId") Long storeId,
             @ApiParam(name = "order", value = "JSON data of the order to be created") @Validated @RequestBody Order order) {
         return orderService.create(storeId, order);
