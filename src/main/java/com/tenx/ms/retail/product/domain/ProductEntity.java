@@ -32,7 +32,6 @@ public class ProductEntity {
     @JoinColumn(name = "store_id", nullable = false)
     private StoreEntity store;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id", nullable = true)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "product")
     private StockEntity stock;
 }
