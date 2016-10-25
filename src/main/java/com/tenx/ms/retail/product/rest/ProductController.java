@@ -8,6 +8,7 @@ import com.tenx.ms.retail.product.service.ProductService;
 import com.tenx.ms.retail.store.rest.dto.Store;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -38,10 +39,16 @@ public class ProductController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success"),
         @ApiResponse(code = 500, message = "Internal server error")})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+                    value = "Results page you want to retrieve (0..N)", defaultValue = "0"),
+            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+                    value = "Number of records per page", defaultValue = "20"),
+    })
     @RequestMapping(value = "/{storeId:\\d+}", method = RequestMethod.GET)
-    public List<Store> findAllByStoreId(
+    public List<Store> findAllByStoreId(Pageable pageable,
         @ApiParam(name = "storeId", value = "The id of the requested store", required = true) @PathVariable("storeId") Long storeId) {
-        return productService.findAllByStoreId(storeId);
+        return productService.findAllByStoreId(pageable, storeId);
     }
 
     @ApiOperation(value = "Get a Product")

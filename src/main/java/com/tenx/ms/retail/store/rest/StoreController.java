@@ -6,6 +6,7 @@ import com.tenx.ms.retail.store.rest.dto.Store;
 import com.tenx.ms.retail.store.service.StoreService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -29,7 +30,7 @@ public class StoreController {
         @ApiResponse(code = 500, message = "Internal server error")})
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.POST)
-    @PreAuthorize("!authentication.isClientOnly() && hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResourceCreated<Long> create(@ApiParam(name = "store", value="JSON data of the store to be created", required = true) @Validated @RequestBody Store store) {
         return new ResourceCreated<>(storeService.create(store));
     }
@@ -38,12 +39,18 @@ public class StoreController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success"),
         @ApiResponse(code = 500, message = "Internal server error")})
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+            value = "Results page you want to retrieve (0..N)", defaultValue = "0"),
+        @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+            value = "Number of records per page", defaultValue = "20"),
+    })
     @RequestMapping(method = RequestMethod.GET)
-    public List<Store> findAll(@RequestParam(value = "name", required = false) Optional<String> name) {
+    public List<Store> findAll(Pageable pageable, @RequestParam(value = "name", required = false) Optional<String> name) {
         if (name.isPresent()) {
-            return storeService.findAllByName(name.get());
+            return storeService.findAllByName(pageable, name.get());
         } else {
-            return storeService.findAll();
+            return storeService.findAll(pageable);
         }
     }
 
@@ -64,7 +71,7 @@ public class StoreController {
             @ApiResponse(code = 500, message = "Internal server error")
     })
     @RequestMapping(value = {"/{storeId:\\d+}"}, method = RequestMethod.DELETE)
-    @PreAuthorize("!authentication.isClientOnly() && hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteStore(@ApiParam(name = "Store id", value = "The id of the store to be deleted", required = true) @PathVariable Long storeId){
         storeService.delete(storeId);
     }

@@ -7,6 +7,7 @@ import com.tenx.ms.retail.product.rest.dto.Product;
 import com.tenx.ms.retail.store.domain.StoreEntity;
 import com.tenx.ms.retail.store.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,13 +40,13 @@ public class ProductService {
         return productRepository.save(productEntity).getProductId();
     }
 
-    public List findAllByStoreId(Long storeId) {
+    public List findAllByStoreId(Pageable pageable, Long storeId) {
         Optional<StoreEntity> storeEntity = storeRepository.findOneByStoreId(storeId);
         if (!storeEntity.isPresent()) {
             throw new NoSuchElementException("Store does not exists");
         }
 
-        List<ProductEntity> productEntities = productRepository.findAllByStoreStoreId(storeId);
+        List<ProductEntity> productEntities = productRepository.findAllByStoreStoreId(pageable, storeId).getContent();
         return productEntities.stream().map(CONVERTER::toT1).collect(Collectors.toList());
     }
 

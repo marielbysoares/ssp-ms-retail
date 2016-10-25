@@ -5,6 +5,7 @@ import com.tenx.ms.retail.store.domain.StoreEntity;
 import com.tenx.ms.retail.store.repository.StoreRepository;
 import com.tenx.ms.retail.store.rest.dto.Store;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,13 +34,13 @@ public class StoreService {
         return storeEntity.getStoreId();
     }
 
-    public List<Store> findAll() {
-        List<StoreEntity> storeEntities = storeRepository.findAll();
+    public List<Store> findAll(Pageable pageable) {
+        List<StoreEntity> storeEntities = storeRepository.findAll(pageable).getContent();
         return storeEntities.stream().map(CONVERTER::toT1).collect(Collectors.toList());
     }
 
-    public List<Store> findAllByName(String name) {
-        List<StoreEntity> storeEntities = storeRepository.findAllByName(name);
+    public List<Store> findAllByName(Pageable pageable, String name) {
+        List<StoreEntity> storeEntities = storeRepository.findAllByName(pageable, name).getContent();
         return storeEntities.stream().map(CONVERTER::toT1).collect(Collectors.toList());
     }
 
