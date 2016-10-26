@@ -1,0 +1,10 @@
+{
+  "order_id": 1,
+  "status": "ORDERED",
+  "backordered_items": [
+    {
+      "product_id": 2,
+      "count": 100
+    }
+  ]
+}
