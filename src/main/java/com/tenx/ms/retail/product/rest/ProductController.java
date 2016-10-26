@@ -10,6 +10,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class ProductController {
         @ApiResponse(code = 500, message = "Internal server error")})
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/{storeId:\\d+}", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResourceCreated<Long> create(
         @PathVariable("storeId") Long storeId,
         @ApiParam(name = "product", value="JSON data of the product to be created", required = true) @Validated @RequestBody Product product) {
@@ -38,6 +40,7 @@ public class ProductController {
     @ApiOperation(value = "List of Products by Store")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success"),
+        @ApiResponse(code = 404, message = "Store Not found"),
         @ApiResponse(code = 500, message = "Internal server error")})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
@@ -59,7 +62,7 @@ public class ProductController {
     @RequestMapping(value = "/{storeId:\\d+}/{productId:\\d+}", method = RequestMethod.GET)
     public Product getById(
         @ApiParam(name = "storeId", value = "The id of the requested store", required = true) @PathVariable("storeId") Long storeId,
-        @ApiParam(name = "storeId", value = "The id of the requested product", required = true) @PathVariable("productId") Long productId) {
+        @ApiParam(name = "productId", value = "The id of the requested product", required = true) @PathVariable("productId") Long productId) {
         return productService.getByStoreIdAndProductId(storeId, productId);
     }
 }

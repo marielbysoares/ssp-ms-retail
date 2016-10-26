@@ -6,6 +6,7 @@ import com.tenx.ms.retail.order.rest.dto.OrderResponse;
 import com.tenx.ms.retail.order.service.OrderService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,14 +21,16 @@ public class OrderController {
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "Successful order creation"),
+                    @ApiResponse(code = 404, message = "Store/Product not found"),
                     @ApiResponse(code = 412, message = "Precondition failure"),
                     @ApiResponse(code = 500, message = "Internal server error")
             }
     )
     @RequestMapping(value = {"/{storeId:\\d+}"}, method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public OrderResponse createOrder(
-            @ApiParam(name = "storeId", value = "The store id") @PathVariable("storeId") Long storeId,
-            @ApiParam(name = "order", value = "JSON data of the order to be created") @Validated @RequestBody Order order) {
+            @ApiParam(name = "storeId", value = "The store id", required = true) @PathVariable("storeId") Long storeId,
+            @ApiParam(name = "order", value = "JSON data of the order to be created", required = true) @Validated @RequestBody Order order) {
         return orderService.create(storeId, order);
     }
 }

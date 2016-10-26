@@ -6,6 +6,7 @@ import com.tenx.ms.retail.stock.service.StockService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,16 +22,18 @@ public class StockController {
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "Successful upsert of Stock"),
+                    @ApiResponse(code = 404, message = "Product not found"),
                     @ApiResponse(code = 412, message = "Precondition failure"),
                     @ApiResponse(code = 500, message = "Internal server error")
             }
     )
     @RequestMapping(value = {"/{storeId:\\d+}/{productId:\\d+}"}, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateStock(
-            @ApiParam(name = "storeId", value = "The store id") @PathVariable() Long storeId,
-            @ApiParam(name = "productId", value = "The product id") @PathVariable() Long productId,
-            @ApiParam(name = "stock", value = "JSON data of the stock to be added") @Validated @RequestBody Stock stock) {
+            @ApiParam(name = "storeId", value = "The store id", required = true) @PathVariable() Long storeId,
+            @ApiParam(name = "productId", value = "The product id", required = true) @PathVariable() Long productId,
+            @ApiParam(name = "stock", value = "JSON data of the stock to be added", required = true) @Validated @RequestBody Stock stock) {
         stockService.upsert(storeId, productId, stock);
     }
 
